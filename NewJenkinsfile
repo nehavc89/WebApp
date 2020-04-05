@@ -1,4 +1,4 @@
-     pipeline {
+pipeline {
         agent none
         tools {
           maven 'maven'
@@ -6,23 +6,22 @@
    
         stages {
         
-          stage("1. Maven build") {
+          stage("Source code analysis") {
+            agent any
+            steps {
+             withSonarQubeEnv('sonarqube') {
+               sh 'mvn compile sonar:sonar -Dsonar.host.url=http://18.217.60.35:9000/ -Dsonar.sources=. -Dsonar.tests=. -Dsonar.test.inclusions=**/test/java/servlet/createpage_junit.java -Dsonar.exclusions=**/test/java/servlet/createpage_junit.java -Dsonar.login=admin -Dsonar.password=admin'
+             }
+            }
+          }
+          stage("Maven build") {
              agent any
              steps {
                sh 'mvn compile'
                }
              }
-           stage("2.build & SonarQube analysis") {
-            agent any
-            steps {
-              withSonarQubeEnv("sonarqube"){
-              
-                sh 'mvn package sonar:sonar  -Dsonar.login=admin -Dsonar.password=admin'
-              }
-              }
-          }
-           
+            
+        
        
           }
        }
-        
