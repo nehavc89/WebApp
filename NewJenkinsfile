@@ -4,6 +4,14 @@
           maven 'maven'
         }
         stages {
+         stage("maven build") {
+            agent any
+            steps {
+              withSonarQubeEnv('sonar') {
+                sh 'mvn compile'
+              }
+            }
+          }
           stage("build & SonarQube analysis") {
             agent any
             steps {
