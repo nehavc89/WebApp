@@ -17,7 +17,7 @@
             steps {
               withSonarQubeEnv("sonarqube"){
               
-                sh 'mvn package sonar:sonar'
+                sh 'mvn package sonar:sonar  -Dsonar.login=admin -Dsonar.password=admin'
               }
               }
           }
