@@ -12,11 +12,11 @@
                sh 'mvn compile'
                }
              }
-           stage("build & SonarQube analysis") {
+           stage("2.build & SonarQube analysis") {
             agent any
             steps {
               
-                sh 'mvn clean package sonar:sonar'
+                sh 'mvn package sonar:sonar'
               }
           }
            
