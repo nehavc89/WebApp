@@ -41,7 +41,7 @@ pipeline {
           step([$class: 'hudson.plugins.jira.JiraIssueUpdater', 
     issueSelector: [$class: 'hudson.plugins.jira.selector.DefaultIssueSelector'], 
     scm: [$class: 'GitSCM', branches: [[name: '*/master']], 
-        userRemoteConfigs: [[url: 'https://github.com/jglick/simple-maven-project-with-tests.git']]]])
+        userRemoteConfigs: [[url: 'https://github.com/nehavc89/WebApp']]]])
         }
         }
         }
