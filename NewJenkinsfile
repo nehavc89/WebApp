@@ -69,12 +69,27 @@ pipeline {
                   }
              }
             stage("Deploy to PROD") {
-          agent any
-            steps {
-                     sh 'mvn package'
-        
-                    
+	    
+	    agent any
+
+                  steps {
+
+                      script {
+
+                          def rtMaven = Artifactory.newMavenBuild()
+
+                          def buildInfo = rtMaven.run pom: 'pom.xml', goals: 'package'
+
+                          def tc7 = tomcat7(credentialsId: 'tomcat', path: '', url: 'http://3.17.134.10:8080')
+
+                          deploy(adapters: [tc7], war: '**/*.war', contextPath: '/ProdWebapp')
+
+			
+                      }
+
                   }
+
+
              }
 
                stage('Send Slack notification') {
