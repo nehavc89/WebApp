@@ -20,18 +20,7 @@ pipeline {
                sh 'mvn compile'
                }
              }
-            
-        stage("Deploy to QA") {
-          agent any
-            steps {
-                     sh 'mvn package'
-        
-                    
-                  }
-             }
-           
-
-          stage('Upload to Artifactory'){
+                     stage('Upload to Artifactory'){
               steps{
 
                    script{
@@ -43,6 +32,24 @@ pipeline {
 
               }   
           }
+        stage("Deploy to QA") {
+          agent any
+            steps {
+                     sh 'mvn package'
+        
+                    
+                  }
+             }
+            stage("Deploy to PROD") {
+          agent any
+            steps {
+                     sh 'mvn package'
+        
+                    
+                  }
+             }
+
+ 
       
        }
        }
