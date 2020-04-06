@@ -63,7 +63,17 @@ pipeline {
                   }
              }
 
- 
+               stage('Send Slack notification') {
+
+                  agent any
+
+                  steps {
+
+                      slackSend(color: '#FFFF00', message: "Pipeline ran successfully")
+
+                  }
+
+              }
       
        }
        }
