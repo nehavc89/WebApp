@@ -25,9 +25,23 @@ pipeline {
           agent any
             steps {
                      sh 'mvn package'
-                     sh "deploy adapters: [tomcat7{credentialsId: 'tomcat', path: '', url: 'http://18.218.133.60:8080/'}, contextPath: '/QAWebapp', onFailure: false, war: '**/*.war']"
+        
+                    
                   }
              }
-       
+           
+
+          stage('Upload to Artifactory'){
+              steps{
+
+                   script{
+                      def server = Artifactory.server 'artifactory'
+                      def rtMaven = Artifactory.newMavenBuild()
+                      rtMaven.deployer releaseRepo:'libs-release-local', snapshotRepo:'libs-snapshot-local', server: server
+                      rtMaven.resolver releaseRepo:'libs-release', snapshotRepo:'libs-snapshot', server: server
+                  }
+
+              }   
           }
+      
        }
