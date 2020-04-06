@@ -32,6 +32,19 @@ pipeline {
 
               }   
           }
+          stage('Jira')
+          {
+          steps
+          {
+          script
+          {
+          step([$class: 'hudson.plugins.jira.JiraIssueUpdater', 
+    issueSelector: [$class: 'hudson.plugins.jira.selector.DefaultIssueSelector'], 
+    scm: [$class: 'GitSCM', branches: [[name: '*/master']], 
+        userRemoteConfigs: [[url: 'https://github.com/jglick/simple-maven-project-with-tests.git']]]])
+        }
+        }
+        }
         stage("Deploy to QA") {
           agent any
             steps {
